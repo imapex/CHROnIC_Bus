@@ -1,3 +1,7 @@
+CHROnIC_Bus
+
+Microservice to Accept and Distribute Jobs
+
 # boilerplate - Hello World
 
 Any applicable badges (build/documentation/collaboration/licenses should go here
