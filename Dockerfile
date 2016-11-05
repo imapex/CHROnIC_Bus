@@ -11,3 +11,9 @@ RUN apt-get update && apt-get install -y \
     dpkg-sig \
     mercurial \
  && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 80
+
+COPY app.py /root/
+RUN chmod +x /root/app.py
+CMD ["/root/app.py"]

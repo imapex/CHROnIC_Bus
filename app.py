@@ -5,17 +5,54 @@ import json, requests
 
 app = Flask(__name__)
 app.config['DATASET_DATABASE_URI'] = 'sqlite:///:memory:'
+#app.config['DATASET_SCHEMA'] = 
 db = Dataset(app)
 
 @app.route('/', methods=['GET'])
 def return_blank():
     return ""
 
+@app.route('/api/status/<taskid>', methods=['GET'])
+def get_status(taskid):
+    table = db['msgbus']
+    messages = table.find(id=taskid)
+    mcount = table.count(id=taskid)
+    resp = ""
+    if mcount == 0:
+        resp = Response("", status=404, mimetype='application/json')
+    else:
+        arr_messages = []
+        for message in messages:
+            arr_messages.append(json.loads(json.dumps(message)))
+        resp = json.dumps(arr_messages)
+    return resp
+
+@app.route('/api/status/<taskid>', methods=['POST'])
+def update_task(taskid):
+    content = request.json
+    #print(content)
+    newstatus = content['status']
+    resp = ""
+    with app.test_request_context():
+        data = dict(id=taskid, status=newstatus)
+        retval = db['msgbus'].update(data, ['id'])
+        #print(retval)
+        if retval == 0:
+            resp = Response("", status=404, mimetype='application/json')
+        else:
+            resp = Response("", status=200, mimetype='application/json')
+    return resp
+
 @app.route('/api/send/<collectorid>', methods=['DELETE'])
 def clear_bus(collectorid):
-    with app.test_request_context():
-        retval = db['msgbus'].delete(colid=collectorid)
     resp = Response("", status=204, mimetype='application/json')
+    with app.test_request_context():
+        mcount = db['msgbus'].count(colid=collectorid)
+        if mcount == 0:
+            resp = Response("", status=404, mimetype='application/json')
+        else:
+            retval = db['msgbus'].delete(colid=collectorid)
+    #resp = Response("", status=204, mimetype='application/json')
     return resp
 
 @app.route('/api/send/<collectorid>', methods=['POST'])
@@ -31,14 +68,16 @@ def send_message(collectorid):
 def get_message(collectorid):
     table = db['msgbus']
     messages = table.find(colid=collectorid)
-    arr_messages = []
-    for message in messages:
-        arr_messages.append(json.loads(json.dumps(message)))
-        UpdateStatus(message, 1)
-        #thisid = message['id']
-        #res = db.query('UPDATE msgbus SET status="1" WHERE id="' + str(thisid) + '"')
-    text = json.dumps(arr_messages) 
-    return text
+    mcount = db['msgbus'].count(colid=collectorid)
+    if mcount == 0:
+        resp = Response("", status=404, mimetype='application/json')
+    else:
+        arr_messages = []
+        for message in messages:
+            arr_messages.append(json.loads(json.dumps(message)))
+            UpdateStatus(message, 1)
+        resp = json.dumps(arr_messages) 
+    return resp
 
 def UpdateStatus(message, newstatus):
     messageid = message['id']
@@ -52,7 +91,9 @@ def UpdateStatus(message, newstatus):
     hookdata = {"id": str(messageid), "status": str(newstatus)}
     jsondata = json.dumps(hookdata)
 
-    res = db.query('UPDATE msgbus SET status="' + str(newstatus) + '" WHERE id="' + str(messageid) + '"')
+    data = dict(id=messageid, status=newstatus)
+    retval = db['msgbus'].update(data, ['id'])
+    #res = db.query('UPDATE msgbus SET status="' + str(newstatus) + '" WHERE id="' + str(messageid) + '"')
     if url != "":
         response = requests.request("POST", url, data=jsondata, headers=headers)
 
