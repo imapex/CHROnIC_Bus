@@ -10,10 +10,14 @@ RUN apt-get update && apt-get install -y \
     curl \
     dpkg-sig \
     mercurial \
+    wget \
  && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 80
 
-COPY app.py /root/
+COPY ["app.py", "requirements.txt", "/root/"]
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py
+RUN pip install -r /root/requirements.txt
 RUN chmod +x /root/app.py
 CMD ["/root/app.py"]
