@@ -34,9 +34,15 @@ def update_task(taskid):
     newstatus = content['status']
     resp = ""
     with app.test_request_context():
-        data = dict(id=taskid, status=newstatus)
-        retval = db['msgbus'].update(data, ['id'])
-        #print(retval)
+        #data = dict(id=taskid, status=newstatus)
+        #retval = db['msgbus'].update(data, ['id'])
+        message = db['msgbus'].find_one(id=taskid)
+        print(message)
+        if message != None:
+            retval = UpdateStatus(message, newstatus)
+            #print(retval)
+        else:
+            retval = 0
         if retval == 0:
             resp = Response("", status=404, mimetype='application/json')
         else:
@@ -96,6 +102,8 @@ def UpdateStatus(message, newstatus):
     #res = db.query('UPDATE msgbus SET status="' + str(newstatus) + '" WHERE id="' + str(messageid) + '"')
     if url != "":
         response = requests.request("POST", url, data=jsondata, headers=headers)
+
+    return retval
 
 if __name__ == '__main__':
     # Run Flask
