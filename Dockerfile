@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     wget \
  && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 80
+EXPOSE 5000
 
 COPY ["app.py", "requirements.txt", "/root/"]
 RUN wget https://bootstrap.pypa.io/get-pip.py
