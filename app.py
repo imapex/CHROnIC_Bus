@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from flask import Flask, request, Response
 from flask_restful import Resource, Api, reqparse
 from flask_dataset import Dataset
@@ -37,7 +38,7 @@ def update_task(taskid):
         #data = dict(id=taskid, status=newstatus)
         #retval = db['msgbus'].update(data, ['id'])
         message = db['msgbus'].find_one(id=taskid)
-        print(message)
+        #print(message)
         if message != None:
             retval = UpdateStatus(message, newstatus)
             #print(retval)
