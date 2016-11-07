@@ -48,15 +48,20 @@ This repo includes the following resources:
 
 ## Docker Installation<a name="opt1"></a>
 
+**Prerequisites:**
+The following components are required to locall run this container:
+* [Docker](https://docs.docker.com/engine/installation/mac/)
+
 **Get the container:**
 The latest build of this project is available as a Docker image from Docker Hub:
-
-    docker pull joshand/chronic_bus:latest
+```
+docker pull joshand/chronic_bus:latest
+```
 
 **Run the application:**
-
-    docker run -d -p 5000:5000 --name Dockerfile joshand/chronic_hub:latest
-
+```
+docker run -d -p 5000:5000 --name Dockerfile joshand/chronic_hub:latest
+```
 
 **Use the API:**
 [API Usage](#api) See below for API usage
@@ -65,27 +70,30 @@ The latest build of this project is available as a Docker image from Docker Hub:
 
 **Prerequisites:**
 The following components are required to locally run this project:
-* Python 3.5
-* git
-* pip
-* virtualenv
+* [Python 3.5](http://docs.python-guide.org/en/latest/starting/install/osx/) - Install via homebrew recommended if on a Mac
+* git - Part of the Xcode Command Line Tools
+* [pip](https://pip.pypa.io/en/stable/installing/)
+* [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/)
 
 **Get the code:**
 The latest build of this project is available on Github:
-
-    mkdir ~/chronic_bus
-    cd ~/chronic_bus
-    git clone https://github.com/joshand/CHROnIC_Bus
+```
+mkdir ~/chronic_bus
+cd ~/chronic_bus
+git clone https://github.com/joshand/CHROnIC_Bus
+```
 
 **Set up virtual environment and PIP:**
-
-    virtualenv chronic
-    source chronic/bin/activate
-    pip install -r requirements.txt
+```
+virtualenv chronic
+source chronic/bin/activate
+pip install -r requirements.txt
+```
 
 **Execute the app:**
-
-    python app.py
+```
+python app.py
+```
 
 **Use the API:**
 [API Usage](#api) See below for API usage
