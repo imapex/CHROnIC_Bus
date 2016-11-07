@@ -13,10 +13,10 @@ This is an application designed to interact with infrastructure components, and 
 
 Contributors - Josh Anderson, Chad Peterson, Loy Evans
 
-This repo is for the following service:
+###This repo is for the following service:
 Bus - This microservice to designed to accept and distribute jobs from a queue. Not designed to be an especially feature rich message bus, but created for a specific purpose - to asynchronously send/receive messages via HTTP REST API. This bus is designed to sit in a public infrastructure and be reachable from environments that sit behind a HTTP Proxy server, with limited outbound connectivity.
 
-This repo includes the following resources:
+###This repo includes the following resources:
 **Repo Information**
 * README.md
     * This document
