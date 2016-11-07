@@ -43,10 +43,10 @@ This repo includes the following resources:
 
 ## Environment
 
-* [Docker](#opt1) Docker Container
-* [Python](#opt2) Native Python
+* [Docker Container](#opt1)
+* [Native Python](#opt2)
 
-## Docker Installation
+## Docker Installation<a name="opt1"></a>
 
 **Get the container:**
 The latest build of this project is available as a Docker image from Docker Hub:
@@ -61,7 +61,7 @@ The latest build of this project is available as a Docker image from Docker Hub:
 **Use the API:**
 [API Usage](#api) See below for API usage
 
-## Local Python Installation
+## Local Python Installation<a name="opt2"></a>
 
 **Prerequisites:**
 The following components are required to locally run this project:
@@ -87,7 +87,10 @@ The latest build of this project is available on Github:
 
     python app.py
 
-# API Usage
+**Use the API:**
+[API Usage](#api) See below for API usage
+
+# API Usage<a name="api"></a>
 **Note: This usage assumes you are executing on localhost**
 * 127.0.0.1:5000/api/send/<channelid> POST
     * {
