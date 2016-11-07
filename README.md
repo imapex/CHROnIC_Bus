@@ -102,16 +102,16 @@ python app.py
 **Note: This usage assumes you are executing on localhost**
 ```
 * 127.0.0.1:5000/api/send/<channelid> POST
-    * {
-          "coldata": "your data or message here",
-          "status": "1",
-          "webhook": "https://url_for_webhook"
-      }
+    {
+        "coldata": "your data or message here",
+        "status": "1",
+        "webhook": "https://url_for_webhook"
+    }
 * 127.0.0.1:5000/api/get/<channelid>  GET
 * 127.0.0.1:5000/api/send/<channelid> DELETE
 * 127.0.0.1:5000/api/status/<taskid>  POST
-    * {
-          "status": "2"
-      }
+    {
+        "status": "2"
+    }
 * 127.0.0.1:5000/api/status/<taskid>  GET
 ```
