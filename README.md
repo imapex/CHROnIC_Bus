@@ -18,12 +18,16 @@ Bus - This microservice to designed to accept and distribute jobs from a queue. 
 
 ###This repo includes the following resources:
 **Repo Information**
+* LICENSE
+    * Code Licensing Information
 * README.md
     * This document
 * .gitignore
     * Standard gitignore file to prevent commiting unneeded or security risk files
 
 **CICD Build Configuration**
+* .drone.sec
+    * Encrypted Drone Settings
 * .drone.yml
     * CICD Build instructions for Drone Server
 * drone_secrets_sample.yml
@@ -34,6 +38,12 @@ Bus - This microservice to designed to accept and distribute jobs from a queue. 
     * pip installation requirements
 
 **Application Files**
+* app_install.sh
+    * This is used to install the application to a MANTL/Marathon environment
+* app_uninstall.sh
+    * This is used to uninstall the application from a MANTL/Marathon environment
+* chronic_bus.json
+    * Configuration file used for the MANTL/Marathon installation
 * app.py
     * This kicks off the application. This application listens and is delivered strictly as an API.
 * test.py
