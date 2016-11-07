@@ -100,6 +100,7 @@ python app.py
 
 # API Usage<a name="api"></a>
 **Note: This usage assumes you are executing on localhost**
+```
 * 127.0.0.1:5000/api/send/<channelid> POST
     * {
           "coldata": "your data or message here",
@@ -113,3 +114,4 @@ python app.py
           "status": "2"
       }
 * 127.0.0.1:5000/api/status/<taskid>  GET
+```
