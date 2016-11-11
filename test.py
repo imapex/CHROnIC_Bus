@@ -2,6 +2,8 @@
 import app
 import unittest
 
+ct = 'application/json'
+
 
 class FlaskTestCase(unittest.TestCase):
 
@@ -14,15 +16,16 @@ class FlaskTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_get_no_results(self):
-        resp = self.app.get('/api/get/testplan123', content_type='application/json')
+        resp = self.app.get('/api/get/testplan123', content_type=ct)
         self.assertEqual(resp.status_code, 404)
 
     def test_getstatus_no_results(self):
-        resp = self.app.get('/api/status/1', content_type='application/json')
+        resp = self.app.get('/api/status/1', content_type=ct)
         self.assertEqual(resp.status_code, 404)
 
     def test_poststatus_no_results(self):
-        resp = self.app.post('/api/status/1',data='{"status": "2"}',content_type='application/json')
+        d = '{"status": "2"}'
+        resp = self.app.post('/api/status/1', data=d, content_type=ct)
         self.assertEqual(resp.status_code, 404)
 
     def test_delete_no_results(self):
@@ -31,41 +34,49 @@ class FlaskTestCase(unittest.TestCase):
 
     def test_delete_results(self):
         resp = self.app.delete('/api/send/testplan123')
-        resp = self.app.post('/api/send/testplan123',data='{"coldata": "data1"}',content_type='application/json')
+        d = '{"msgdata": "data1"}'
+        resp = self.app.post('/api/send/testplan123', data=d, content_type=ct)
         resp = self.app.delete('/api/send/testplan123')
         self.assertEqual(resp.status_code, 204)
 
     def test_post_result_one(self):
         resp = self.app.delete('/api/send/testplan123')
-        resp = self.app.post('/api/send/testplan123',data='{"coldata": "data1"}',content_type='application/json')
+        d = '{"msgdata": "data1"}'
+        resp = self.app.post('/api/send/testplan123', data=d, content_type=ct)
         self.app.delete('/api/send/testplan123')
         self.assertEqual(resp.data, b'1')
 
     def test_post_result_two(self):
         resp = self.app.delete('/api/send/testplan123')
-        resp = self.app.post('/api/send/testplan123',data='{"coldata": "data1"}',content_type='application/json')
-        resp = self.app.post('/api/send/testplan123',data='{"coldata": "data2"}',content_type='application/json')
+        d = '{"msgdata": "data1"}'
+        resp = self.app.post('/api/send/testplan123', data=d, content_type=ct)
+        d = '{"msgdata": "data2"}'
+        resp = self.app.post('/api/send/testplan123', data=d, content_type=ct)
         self.app.delete('/api/send/testplan123')
         self.assertEqual(resp.data, b'2')
 
     def test_get_results(self):
         resp = self.app.delete('/api/send/testplan123')
-        resp = self.app.post('/api/send/testplan123',data='{"coldata": "data1"}',content_type='application/json')
-        resp = self.app.get('/api/get/testplan123', content_type='application/json')
+        d = '{"msgdata": "data1"}'
+        resp = self.app.post('/api/send/testplan123', data=d, content_type=ct)
+        resp = self.app.get('/api/get/testplan123', content_type=ct)
         self.app.delete('/api/send/testplan123')
         self.assertEqual(resp.status_code, 200)
 
     def test_getstatus_results(self):
         resp = self.app.delete('/api/send/testplan123')
-        resp = self.app.post('/api/send/testplan123',data='{"coldata": "data1"}',content_type='application/json')
-        resp = self.app.get('/api/status/1', content_type='application/json')
+        d = '{"msgdata": "data1"}'
+        resp = self.app.post('/api/send/testplan123', data=d, content_type=ct)
+        resp = self.app.get('/api/status/1', content_type=ct)
         self.app.delete('/api/send/testplan123')
         self.assertEqual(resp.status_code, 200)
 
     def test_poststatus_results(self):
         resp = self.app.delete('/api/send/testplan123')
-        resp = self.app.post('/api/send/testplan123',data='{"coldata": "data1"}',content_type='application/json')
-        resp = self.app.post('/api/status/1',data='{"status": "2"}',content_type='application/json')
+        d = '{"msgdata": "data1"}'
+        resp = self.app.post('/api/send/testplan123', data=d, content_type=ct)
+        d = '{"status": "2"}'
+        resp = self.app.post('/api/status/1', data=d, content_type=ct)
         self.app.delete('/api/send/testplan123')
         self.assertEqual(resp.status_code, 200)
 

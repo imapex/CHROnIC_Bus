@@ -17,11 +17,11 @@ def return_blank():
 
 
 # -- Add route to GET status for a task
-@app.route('/api/status/<taskid>', methods=['GET'])
-def get_status(taskid):
+@app.route('/api/status/<messageid>', methods=['GET'])
+def get_status(messageid):
     table = db['msgbus']
-    messages = table.find(id=taskid)
-    mcount = table.count(id=taskid)
+    messages = table.find(id=messageid)
+    mcount = table.count(id=messageid)
     resp = ""
     if mcount == 0:
         # If there is not a task with the specified ID, return 404
@@ -36,13 +36,13 @@ def get_status(taskid):
 
 
 # -- Add route to POST new status for a task
-@app.route('/api/status/<taskid>', methods=['POST'])
-def update_task(taskid):
+@app.route('/api/status/<messageid>', methods=['POST'])
+def update_status(messageid):
     content = request.get_json(force=True)
     newstatus = content['status']
     resp = ""
     with app.test_request_context():
-        message = db['msgbus'].find_one(id=taskid)
+        message = db['msgbus'].find_one(id=messageid)
         # If the task exists, perform an update
         if message is not None:
             retval = UpdateStatus(message, newstatus)
@@ -57,39 +57,39 @@ def update_task(taskid):
     return resp
 
 
-# -- Add route to DELETE all tasks for a specified collector
-@app.route('/api/send/<collectorid>', methods=['DELETE'])
-def clear_bus(collectorid):
+# -- Add route to DELETE all tasks for a specified channel
+@app.route('/api/send/<channelid>', methods=['DELETE'])
+def clear_bus(channelid):
     # Default return 204 deleted
     resp = Response("", status=204, mimetype='application/json')
     with app.test_request_context():
-        mcount = db['msgbus'].count(colid=collectorid)
+        mcount = db['msgbus'].count(chid=channelid)
         # If there are no tasks for the specified collector, return 404
         if mcount == 0:
             resp = Response("", status=404, mimetype='application/json')
         else:
-            db['msgbus'].delete(colid=collectorid)
+            db['msgbus'].delete(chid=channelid)
     return resp
 
 
-# -- Add route to POST new task for a specified collector
-@app.route('/api/send/<collectorid>', methods=['POST'])
-def send_message(collectorid):
+# -- Add route to POST new task for a specified channel
+@app.route('/api/send/<channelid>', methods=['POST'])
+def send_message(channelid):
     content = request.get_json(force=True)
-    content['colid'] = collectorid
-    # Add new task to the queue for the specified collector
+    content['chid'] = channelid
+    # Add new task to the queue for the specified channel
     with app.test_request_context():
         retval = db['msgbus'].insert(content)
     text = str(retval)
     return text
 
 
-# -- Add route to GET all tasks for specified collector
-@app.route('/api/get/<collectorid>', methods=['GET'])
-def get_message(collectorid):
+# -- Add route to GET all tasks for specified channel
+@app.route('/api/get/<channelid>', methods=['GET'])
+def get_message(channelid):
     table = db['msgbus']
-    messages = table.find(colid=collectorid)
-    mcount = db['msgbus'].count(colid=collectorid)
+    messages = table.find(chid=channelid)
+    mcount = db['msgbus'].count(chid=channelid)
     # If there are no tasks for the specified collector, return 404 not found
     if mcount == 0:
         resp = Response("", status=404, mimetype='application/json')

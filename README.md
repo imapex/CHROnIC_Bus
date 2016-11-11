@@ -14,7 +14,7 @@ This is an application designed to interact with infrastructure components, and 
 Contributors - Josh Anderson, Chad Peterson, Loy Evans
 
 ###This repo is for the following service:
-Bus - This microservice is designed to accept and distribute jobs from a queue. Not designed to be an especially feature rich message bus, but created for a specific purpose - to asynchronously send/receive messages via HTTP REST API. This bus is designed to sit in a public infrastructure and be reachable from environments that sit behind a HTTP Proxy server, with limited outbound connectivity.
+Bus - This microservice is designed to accept and distribute messages from a queue. Not designed to be an especially feature rich message bus, but created for a specific purpose - to asynchronously send/receive messages via HTTP REST API. This bus is designed to sit in a public infrastructure and be reachable from environments that sit behind a HTTP Proxy server, with limited outbound connectivity.
 
 ###This repo includes the following resources:
 **Repo Information**
@@ -111,17 +111,17 @@ python app.py
 # API Usage<a name="api"></a>
 **Note: This usage assumes you are executing on localhost**
 ```
-* 127.0.0.1:5000/api/send/<channelid> POST        Used to post a new message to a channel on the bus.
+* 127.0.0.1:5000/api/send/<channelid>    POST        Used to post a new message to a channel on the bus.
     {
-        "coldata": "your data or message here",   Mandatory: The data to include in the message.
-        "status": "0",                            Optional: Current status of the message. Treated as null/0 if excluded.
-        "webhook": "https://url_for_webhook"      Optional: Specify a webhook to call when a message gets updated.
+        "msgdata": "your data or message here",      Mandatory: The data to include in the message.
+        "status": "0",                               Optional: Current status of the message. Treated as null/0 if excluded.
+        "webhook": "https://url_for_webhook"         Optional: Specify a webhook to call when a message gets updated.
     }
-* 127.0.0.1:5000/api/get/<channelid>  GET         Used to retrieve all messages from a channel on the bus. Sets status=1.
-* 127.0.0.1:5000/api/send/<channelid> DELETE      Used to clear all messages from a channel on the bus.
-* 127.0.0.1:5000/api/status/<taskid>  POST        Used to change the status of a particular message on the bus.
+* 127.0.0.1:5000/api/get/<channelid>     GET         Used to retrieve all messages from a channel on the bus. Sets status=1.
+* 127.0.0.1:5000/api/send/<channelid>    DELETE      Used to clear all messages from a channel on the bus.
+* 127.0.0.1:5000/api/status/<messageid>  POST        Used to change the status of a particular message on the bus.
     {
-        "status": "2"                             Mandatory: New status of message.
+        "status": "2"                                Mandatory: New status of message.
     }
-* 127.0.0.1:5000/api/status/<taskid>  GET         Used to get the status of a particular message on the bus.
+* 127.0.0.1:5000/api/status/<messageid>  GET         Used to get the status of a particular message on the bus.
 ```
