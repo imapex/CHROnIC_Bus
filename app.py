@@ -38,7 +38,7 @@ def get_status(taskid):
 # -- Add route to POST new status for a task
 @app.route('/api/status/<taskid>', methods=['POST'])
 def update_task(taskid):
-    content = request.json
+    content = request.get_json(force=True)
     newstatus = content['status']
     resp = ""
     with app.test_request_context():
@@ -75,7 +75,7 @@ def clear_bus(collectorid):
 # -- Add route to POST new task for a specified collector
 @app.route('/api/send/<collectorid>', methods=['POST'])
 def send_message(collectorid):
-    content = request.json
+    content = request.get_json(force=True)
     content['colid'] = collectorid
     # Add new task to the queue for the specified collector
     with app.test_request_context():
