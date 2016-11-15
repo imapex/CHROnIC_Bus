@@ -16,8 +16,8 @@ echo
 #read docker_username
 #echo
 
-echo "Uninstalling the app at chronicbus"
-curl -k -X DELETE -u $mantl_user:$mantl_password https://$control_address:8080/v2/apps/chronicbus \
+echo "Uninstalling the app at imapex/chronic/bus"
+curl -k -X DELETE -u $mantl_user:$mantl_password https://$control_address:8080/v2/apps/imapex/chronic/bus \
 -H "Content-type: application/json"
 echo
 

@@ -45,7 +45,7 @@ echo Installed
 echo "Wait 2-3 minutes for the service to deploy. "
 echo "Then you can visit your application at:  "
 echo
-echo "http://chronicbus.$mantl_domain/"
+echo "http://imapex-chronic-bus.$mantl_domain/"
 echo
 echo
 echo "You can also watch the progress from the GUI at: "
