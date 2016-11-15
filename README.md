@@ -121,7 +121,12 @@ python app.py
 * 127.0.0.1:5000/api/send/<channelid>    DELETE      Used to clear all messages from a channel on the bus.
 * 127.0.0.1:5000/api/status/<messageid>  POST        Used to change the status of a particular message on the bus.
     {
-        "status": "2"                                Mandatory: New status of message.
+        "status": "3"                                Mandatory: New status of message.
     }
 * 127.0.0.1:5000/api/status/<messageid>  GET         Used to get the status of a particular message on the bus.
+* 127.0.0.1:5000/api/update/<messageid>  POST        Used to post a response to a given message on the bus.
+    {
+        "msgresp": "your data or message here"       Required: Updated status to post for message. Sets status = 2.
+    } 
+
 ```

@@ -16,7 +16,7 @@
         "protocol": "TCP",
         "portIndex": 0
     }],
-    "id": "/chronicbus",
+    "id": "/chronic/bus",
     "instances": 1,
     "cpus": 0.1,
     "mem": 16,

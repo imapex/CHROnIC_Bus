@@ -57,6 +57,30 @@ def update_status(messageid):
     return resp
 
 
+# -- Add route to POST update for a task
+@app.route('/api/update/<messageid>', methods=['POST'])
+def update_message(messageid):
+    content = request.get_json(force=True)
+    messageupdate = content['msgresp']
+    resp = ""
+    with app.test_request_context():
+        message = db['msgbus'].find_one(id=messageid)
+        # If the task exists, perform an update
+        if message is not None:
+            data = dict(id=messageid, msgresp=messageupdate)
+            retval = db['msgbus'].update(data, ['id'])
+            retval = UpdateStatus(message, "2")
+        else:
+            retval = 0
+        if retval == 0:
+            # If the task does not exist, or if there was a problem, return 404
+            resp = Response("", status=404, mimetype='application/json')
+        else:
+            # Return 200 ok
+            resp = Response("", status=200, mimetype='application/json')
+    return resp
+
+
 # -- Add route to DELETE all tasks for a specified channel
 @app.route('/api/send/<channelid>', methods=['DELETE'])
 def clear_bus(channelid):
@@ -97,8 +121,17 @@ def get_message(channelid):
         # If there are tasks, loop through and dump in json array
         arr_messages = []
         for message in messages:
+            doset = 0
+            if "status" in message:
+                if message["status"] == "" or message["status"] == "0":
+                    doset = 1
+            else:
+                doset = 1
+
             arr_messages.append(json.loads(json.dumps(message)))
-            UpdateStatus(message, 1)
+
+            if doset == 1:
+                UpdateStatus(message, "1")
         resp = json.dumps(arr_messages)
     return resp
 
