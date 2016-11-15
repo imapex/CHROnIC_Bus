@@ -108,13 +108,31 @@ def send_message(channelid):
     return text
 
 
+# -- Add route to GET all channels on the bus
+@app.route('/api/get', methods=['GET'])
+def get_message_channels():
+    table = db['msgbus']
+    messages = table.find()
+    mcount = db['msgbus'].count()
+    # If there are no channels found, return 404 not found
+    if mcount == 0:
+        resp = Response("", status=404, mimetype='application/json')
+    else:
+        # If there are messages, loop through and dump in json array
+        arr_messages = []
+        for message in messages:
+            arr_messages.append(json.loads(json.dumps(message["chid"])))
+        resp = json.dumps(arr_messages)
+    return resp
+
+
 # -- Add route to GET all tasks for specified channel
 @app.route('/api/get/<channelid>', methods=['GET'])
 def get_message(channelid):
     table = db['msgbus']
     messages = table.find(chid=channelid)
     mcount = db['msgbus'].count(chid=channelid)
-    # If there are no tasks for the specified collector, return 404 not found
+    # If there are no messages for the specified channel, return 404 not found
     if mcount == 0:
         resp = Response("", status=404, mimetype='application/json')
     else:

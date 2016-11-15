@@ -114,9 +114,11 @@ python app.py
 * 127.0.0.1:5000/api/send/<channelid>    POST        Used to post a new message to a channel on the bus.
     {
         "msgdata": "your data or message here",      Mandatory: The data to include in the message.
+        "desc": "description of the message",        Optional: Friendly description of the task or message.
         "status": "0",                               Optional: Current status of the message. Treated as null/0 if excluded.
         "webhook": "https://url_for_webhook"         Optional: Specify a webhook to call when a message gets updated.
     }
+* 127.0.0.1:5000/api/get                 GET         Used to get a list of all channels on the bus.
 * 127.0.0.1:5000/api/get/<channelid>     GET         Used to retrieve all messages from a channel on the bus. Sets status=1.
 * 127.0.0.1:5000/api/send/<channelid>    DELETE      Used to clear all messages from a channel on the bus.
 * 127.0.0.1:5000/api/status/<messageid>  POST        Used to change the status of a particular message on the bus.
