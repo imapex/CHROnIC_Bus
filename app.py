@@ -131,7 +131,34 @@ def get_message_channels():
             else:
                 taskstatus = "0"
             arr_messages[channelid][taskid] = taskstatus
-            #arr_messages.append(json.loads(json.dumps(message["chid"])))
+        resp = json.dumps(arr_messages)
+    return resp
+
+
+# -- Add route to GET all tasks for specified channel, force return messages
+@app.route('/api/get/<channelid>/force', methods=['GET'])
+def get_message_force(channelid):
+    table = db['msgbus']
+    messages = table.find(chid=channelid)
+    mcount = db['msgbus'].count(chid=channelid)
+    # If there are no messages for the specified channel, return 404 not found
+    if mcount == 0:
+        resp = Response("", status=404, mimetype='application/json')
+    else:
+        # If there are tasks, loop through and dump in json array
+        arr_messages = []
+        for message in messages:
+            doset = 0
+            if "status" in message:
+                if message["status"] == "" or message["status"] == "0":
+                    doset = 1
+            else:
+                doset = 1
+
+            arr_messages.append(json.loads(json.dumps(message)))
+
+            if doset == 1:
+                UpdateStatus(message, "1")
         resp = json.dumps(arr_messages)
     return resp
 
@@ -152,11 +179,11 @@ def get_message(channelid):
             doset = 0
             if "status" in message:
                 if message["status"] == "" or message["status"] == "0":
+                    arr_messages.append(json.loads(json.dumps(message)))
                     doset = 1
             else:
+                arr_messages.append(json.loads(json.dumps(message)))
                 doset = 1
-
-            arr_messages.append(json.loads(json.dumps(message)))
 
             if doset == 1:
                 UpdateStatus(message, "1")

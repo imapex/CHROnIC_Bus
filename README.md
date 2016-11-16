@@ -119,7 +119,8 @@ python app.py
         "webhook": "https://url_for_webhook"         Optional: Specify a webhook to call when a message gets updated.
     }
 * 127.0.0.1:5000/api/get                 GET         Used to get a list of all channels on the bus.
-* 127.0.0.1:5000/api/get/<channelid>     GET         Used to retrieve all messages from a channel on the bus. Sets status=1.
+* 127.0.0.1:5000/api/get/<channelid>     GET         Used to retrieve messages from a channel on the bus where status is
+                                                       unset or =0. Sets status=1 on those messages. Add /force to show all.
 * 127.0.0.1:5000/api/send/<channelid>    DELETE      Used to clear all messages from a channel on the bus.
 * 127.0.0.1:5000/api/status/<messageid>  POST        Used to change the status of a particular message on the bus.
     {
