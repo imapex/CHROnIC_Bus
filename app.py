@@ -119,9 +119,19 @@ def get_message_channels():
         resp = Response("", status=404, mimetype='application/json')
     else:
         # If there are messages, loop through and dump in json array
-        arr_messages = []
+        arr_messages = {}
         for message in messages:
-            arr_messages.append(json.loads(json.dumps(message["chid"])))
+            channelid = message["chid"]
+            if channelid not in arr_messages:
+                arr_messages[channelid] = {}
+
+            taskid = message["id"]
+            if "status" in message:
+                taskstatus = message["status"]
+            else:
+                taskstatus = "0"
+            arr_messages[channelid][taskid] = taskstatus
+            #arr_messages.append(json.loads(json.dumps(message["chid"])))
         resp = json.dumps(arr_messages)
     return resp
 
