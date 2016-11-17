@@ -111,25 +111,27 @@ python app.py
 # API Usage<a name="api"></a>
 **Note: This usage assumes you are executing on localhost**
 ```
-* 127.0.0.1:5000/api/send/<channelid>    POST        Used to post a new message to a channel on the bus.
+* 127.0.0.1:5000/api/send/<channelid>               POST        Used to post a new message to a channel on the bus.
     {
-        "msgdata": "your data or message here",      Mandatory: The data to include in the message.
-        "desc": "description of the message",        Optional: Friendly description of the task or message.
-        "status": "0",                               Optional: Current status of the message. Treated as null/0 if excluded.
-        "webhook": "https://url_for_webhook"         Optional: Specify a webhook to call when a message gets updated.
+        "msgdata": "your data or message here",                 Mandatory: The data to include in the message.
+        "desc": "description of the message",                   Optional: Friendly description of the task or message.
+        "status": "0",                                          Optional: Current status of the message. Treated as null/0 if excluded.
+        "webhook": "https://url_for_webhook"                    Optional: Specify a webhook to call when a message gets updated.
     }
-* 127.0.0.1:5000/api/get                 GET         Used to get a list of all channels on the bus.
-* 127.0.0.1:5000/api/get/<channelid>     GET         Used to retrieve messages from a channel on the bus where status is
-                                                       unset or =0. Sets status=1 on those messages. Add /force to show all.
-* 127.0.0.1:5000/api/send/<channelid>    DELETE      Used to clear all messages from a channel on the bus.
-* 127.0.0.1:5000/api/status/<messageid>  POST        Used to change the status of a particular message on the bus.
+* 127.0.0.1:5000/api/get                            GET         Used to get a list of all channels on the bus.
+* 127.0.0.1:5000/api/get/<channelid>                GET         Used to retrieve messages from a channel on the bus where status is
+                                                                  unset or =0. Sets status=1 on those messages. Add /force to show all.
+* 127.0.0.1:5000/api/get/<channelid>/<statusid>     GET         Used to retrieve messages from a channel on the bus where status is
+                                                                  specified by statusid.
+* 127.0.0.1:5000/api/send/<channelid>               DELETE      Used to clear all messages from a channel on the bus.
+* 127.0.0.1:5000/api/status/<messageid>             POST        Used to change the status of a particular message on the bus.
     {
-        "status": "3"                                Mandatory: New status of message.
+        "status": "3"                                           Mandatory: New status of message.
     }
-* 127.0.0.1:5000/api/status/<messageid>  GET         Used to get the status of a particular message on the bus.
-* 127.0.0.1:5000/api/update/<messageid>  POST        Used to post a response to a given message on the bus.
+* 127.0.0.1:5000/api/status/<messageid>             GET         Used to get the status of a particular message on the bus.
+* 127.0.0.1:5000/api/update/<messageid>             POST        Used to post a response to a given message on the bus.
     {
-        "msgresp": "your data or message here"       Required: Updated status to post for message. Sets status = 2.
+        "msgresp": "your data or message here"                  Required: Updated status to post for message. Sets status = 2.
     } 
 
 ```
