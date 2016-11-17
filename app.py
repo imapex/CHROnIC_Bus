@@ -150,7 +150,8 @@ def get_message_force(channelid):
         for message in messages:
             doset = 0
             if "status" in message:
-                if message["status"] == "" or message["status"] == "0":
+                if message["status"] == "" or message["status"] == "0" \
+                 or message["status"] is None:
                     doset = 1
             else:
                 doset = 1
@@ -158,7 +159,9 @@ def get_message_force(channelid):
             arr_messages.append(json.loads(json.dumps(message)))
 
             if doset == 1:
-                UpdateStatus(message, "1")
+                pass
+#               I don't think this is the desired behavior; disabled
+#               UpdateStatus(message, "1")
         resp = json.dumps(arr_messages)
     return resp
 
@@ -178,7 +181,8 @@ def get_message(channelid):
         for message in messages:
             doset = 0
             if "status" in message:
-                if message["status"] == "" or message["status"] == "0":
+                if message["status"] == "" or message["status"] == "0" \
+                 or message["status"] is None:
                     arr_messages.append(json.loads(json.dumps(message)))
                     doset = 1
             else:
@@ -187,6 +191,36 @@ def get_message(channelid):
 
             if doset == 1:
                 UpdateStatus(message, "1")
+        resp = json.dumps(arr_messages)
+    return resp
+
+
+# -- Add route to GET all tasks for specified channel in a specific status
+@app.route('/api/get/<channelid>/<statusid>', methods=['GET'])
+def get_message_status(channelid, statusid):
+    table = db['msgbus']
+    messages = table.find(chid=channelid)
+    mcount = db['msgbus'].count(chid=channelid)
+    # If there are no messages for the specified channel, return 404 not found
+    if mcount == 0:
+        resp = Response("", status=404, mimetype='application/json')
+    else:
+        # If there are tasks, loop through and dump in json array
+        arr_messages = []
+        for message in messages:
+            curstatus = "0"
+            if "status" in message:
+                if message["status"] == "" or message["status"] == "0" \
+                 or message["status"] is None:
+                    curstatus = "0"
+                else:
+                    curstatus = message["status"]
+            else:
+                curstatus = "0"
+
+            if curstatus == statusid:
+                arr_messages.append(json.loads(json.dumps(message)))
+
         resp = json.dumps(arr_messages)
     return resp
 
