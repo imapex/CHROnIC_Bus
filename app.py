@@ -100,6 +100,15 @@ def clear_bus(channelid):
 @app.route('/api/send/<channelid>', methods=['POST'])
 def send_message(channelid):
     content = request.get_json(force=True)
+    newcontent = {}
+    for elem in content:
+        newelem = content[elem]
+        if isinstance(newelem, dict) or isinstance(newelem, list):
+            newelem = str(newelem)
+
+        newcontent[elem] = newelem
+
+    content = newcontent
     content['chid'] = channelid
     # Add new task to the queue for the specified channel
     with app.test_request_context():
