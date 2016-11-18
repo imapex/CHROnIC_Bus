@@ -1,6 +1,7 @@
 drone-secrets.yml
 ds.sh
 *.bak
+chronic.db
 
 .idea/
 .vagrant/

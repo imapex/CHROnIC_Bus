@@ -6,7 +6,8 @@ import requests
 
 # -- Application Setup
 app = Flask(__name__)
-app.config['DATASET_DATABASE_URI'] = 'sqlite:///:memory:'
+#app.config['DATASET_DATABASE_URI'] = 'sqlite:///:memory:'
+app.config['DATASET_DATABASE_URI'] = 'sqlite:///chronic.db'
 db = Dataset(app)
 
 
