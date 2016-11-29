@@ -279,7 +279,7 @@ def get_message_status(channelid, statusid):
 # -- Function used to update status on a task - used when manual task update is
 # POSTed or when a GET is done for all tasks
 def UpdateStatus(message, newstatus):
-    print("UpdateStatus:", message, newstatus)
+    print("UpdateStatus:", newstatus)
     try:
         messageid = message['id']
         url = ""
