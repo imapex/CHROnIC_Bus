@@ -297,7 +297,9 @@ def UpdateStatus(message, newstatus):
         # if a webhook was specified, call the webhook since there was an
         #  update
         if url != "":
+            print("Webhook:" + url)
             requests.request("POST", url, data=jsondata, headers=headers)
+            print(requests)
         return retval
     except:
         print("Unexpected error:", sys.exc_info()[0])
