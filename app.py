@@ -281,10 +281,17 @@ def get_message_status(channelid, statusid):
 def UpdateStatus(message, newstatus):
     print("UpdateStatus:", newstatus)
     try:
-        messageid = message['id']
+        if "id" in message:
+            messageid = message['id']
         url = ""
-        if 'webhook' in message:
+        if "webhook" in message:
             url = message['webhook']
+            print("URL=", url)
+            if url:
+                if url[0:4] != "http" and url[0:4] != "HTTP":
+                    url = "http://" + url
+            else:
+                url = ""
 
         headers = {
             'content-type': 'application/json'
@@ -297,9 +304,9 @@ def UpdateStatus(message, newstatus):
         # if a webhook was specified, call the webhook since there was an
         #  update
         if url != "":
-            print("Webhook:" + url)
-            requests.request("POST", url, data=jsondata, headers=headers)
-            print(requests)
+            print("Webhook:" + url, jsondata)
+            r = requests.request("POST", url, data=jsondata, headers=headers, timeout=5)
+            print("#########", r.status_code, r.text)
         return retval
     except:
         print("Unexpected error:", sys.exc_info()[0])
