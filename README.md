@@ -9,7 +9,7 @@ This is an application designed to interact with infrastructure components, and 
 * Bus - Used as a basic HTTP-based message queue
 * Collector - On-prem component used to exchange core information between on-prem infrastructure and the Portal. Consumes messages from the queue.
 * Portal - Information Collection service and agent used to push tasks into the queue.
-* TBD
+* UCS ESX Analyzer - Process data and generate reports which are pushed back into the queue.
 
 Contributors - Josh Anderson, Chad Peterson, Loy Evans
 
